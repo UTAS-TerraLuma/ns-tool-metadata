@@ -257,13 +257,13 @@ def title():
 
 
 @app.command()
-def parse_kmz(input: Path, output: Path) -> None:
+def parse_kmz(input: Path, output: Path | None = None) -> None:
     """
     Parse a DJI KMZ file and extract metadata.
 
     Args:
         input: Path to the KMZ file to parse.
-        output: Path to CSV file to save the output.
+        output: Optional path to CSV file to save the output.
     """
     title()
     # TODO - Check if path is a dir or is a .kmz file
@@ -277,6 +277,9 @@ def parse_kmz(input: Path, output: Path) -> None:
     typer.echo("\nPrompting user for metadata...\n")
     metadata_from_user = get_user_fields()
     metadata = combine_metadata(metadata_from_file, metadata_from_user)
+    if output is None:
+        output = input.with_suffix(".csv")
+
     save_metadata(metadata, output)
     typer.echo(f"\nMetadata saved to {output}")
 

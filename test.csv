@@ -1,5 +1,5 @@
 Field,Value
-Site_name,a
+Site_name,heheh
 Platform,M3M/M3E
 Flight_height(m),35
 Flight_speed(m/s),2.69
@@ -10,8 +10,8 @@ Side_overlap%,80
 Terrain_follow,Enabled
 Terrain_type,real time follow
 Target_surface_takeoff(m),0
-White_balance,b
-Sky_conditions,c
-Wind_conditions,d
-Base_station,e
-Comments,f
+White_balance,a
+Sky_conditions,a
+Wind_conditions,a
+Base_station,a
+Comments,a

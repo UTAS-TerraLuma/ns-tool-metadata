@@ -17,13 +17,13 @@ uv sync
 Run the tool with a DJI KMZ file as input and specify an output CSV file:
 
 ```sh
-uv run main.py parse-kmz <input.kmz> <output.csv>
+uv run main.py <input.kmz> <output.csv>
 ```
 
 ### Example
 
 ```sh
-uv run python main.py parse-kmz kmz_test_files/mission.kmz flight_metadata.csv
+uv run python main.py kmz_test_files/mission.kmz flight_metadata.csv
 ```
 
 ## TODO
