@@ -257,7 +257,13 @@ def title():
 
 
 @app.command()
-def parse_kmz(input: Path, output: Path | None = None) -> None:
+def parse_kmz(
+    input: Path = typer.Argument(..., help="Path to the KMZ file to parse"),
+    output: Path | None = typer.Option(
+        None,
+        help="Path to CSV file to save the output. Defaults to input filename with .csv extension.",
+    ),
+) -> None:
     """
     Parse a DJI KMZ file and extract metadata.
 
@@ -277,6 +283,7 @@ def parse_kmz(input: Path, output: Path | None = None) -> None:
     typer.echo("\nPrompting user for metadata...\n")
     metadata_from_user = get_user_fields()
     metadata = combine_metadata(metadata_from_file, metadata_from_user)
+
     if output is None:
         output = input.with_suffix(".csv")
 
