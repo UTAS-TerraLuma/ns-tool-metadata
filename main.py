@@ -90,13 +90,18 @@ def parse_tree(root: ET.Element) -> pd.Series:
         KeyError: If the drone enum combination is not in the sensor lookup table.
 
     """
-    dji_sensor_lookup = {
+    # See here for look up values
+    # https://developer.dji.com/doc/cloud-api-tutorial/en/overview/product-support.html#enumeration-values-of-aircraft-rc-and-dock
+    # Our keys are formated as "{type}_{subtype}"
+    dji_platform_lookup = {
+        "103_0": "Matrice 400",
         "89_0": "Matrice 350 RTK",
         "60_0": "Matrice 300 RTK",
         "67_0": "Matrice 30",
         "67_1": "Matrice 30T",
         "77_0": "M3M/M3E",
         "77_1": "M3T",
+        "77_3": "M3TA",
         "91_0": "Matrice 3D",
         "91_1": "Matrice 3TD",
         "100_0": "Matrice 4D",
@@ -109,7 +114,7 @@ def parse_tree(root: ET.Element) -> pd.Series:
 
     drone_enum = get_value(root, "droneEnumValue")
     drone_sub_enum = get_value(root, "droneSubEnumValue")
-    platform = dji_sensor_lookup[f"{drone_enum}_{drone_sub_enum}"]
+    platform = dji_platform_lookup[f"{drone_enum}_{drone_sub_enum}"]
     flight_height = get_value(root, "globalShootHeight")
     assert isinstance(flight_height, (int, float))
     flight_speed = get_value(root, "autoFlightSpeed")
