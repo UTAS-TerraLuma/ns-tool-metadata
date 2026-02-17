@@ -1,9 +1,14 @@
 import xml.etree.ElementTree as ET
 import zipfile
 from pathlib import Path
+from typing import Any
 
+import pyproj
 from pydantic import BaseModel
-from shapely import Polygon
+from pyproj.aoi import AreaOfInterest
+from shapely import Polygon, wkt
+from shapely.geometry import mapping
+from shapely.ops import transform
 
 
 class DJIMetadata(BaseModel):
@@ -20,6 +25,56 @@ class DJIMetadata(BaseModel):
     terrain_type: str
     target_surface_takeoff_m: float
     polygon: str
+    polygon_with_buffer: str
+
+    def to_geojson_feature(self) -> dict[str, Any]:
+        geom = wkt.loads(self.polygon_with_buffer)
+
+        props = self.model_dump()
+
+        return {
+            "type": "Feature",
+            "geometry": mapping(geom),
+            "properties": props,
+        }
+
+
+# The buffer must be done in a projected coordinate system
+def buffer_in_metres(geom: Polygon, margin_m: int | float):
+    # Define projections
+    wgs84 = pyproj.CRS("EPSG:4326")
+
+    # Auto-pick appropriate UTM zone based on centroid
+    utm_crs = pyproj.CRS.from_user_input(
+        pyproj.database.query_utm_crs_info(
+            datum_name="WGS 84",
+            area_of_interest=AreaOfInterest(
+                west_lon_degree=geom.centroid.x,
+                south_lat_degree=geom.centroid.y,
+                east_lon_degree=geom.centroid.x,
+                north_lat_degree=geom.centroid.y,
+            ),
+        )[0].code
+    )
+
+    # Transformers
+    project_to_utm = pyproj.Transformer.from_crs(
+        wgs84, utm_crs, always_xy=True
+    ).transform
+    project_to_wgs = pyproj.Transformer.from_crs(
+        utm_crs, wgs84, always_xy=True
+    ).transform
+
+    # Reproject to metres
+    geom_utm = transform(project_to_utm, geom)
+
+    # Buffer in metres
+    buffered_utm = geom_utm.buffer(margin_m, cap_style="square", join_style="mitre")
+
+    # Reproject back to WGS84
+    buffered_wgs84 = transform(project_to_wgs, buffered_utm)
+
+    return buffered_wgs84
 
 
 def _get_root_element_from_kmz(kmz_file: Path) -> ET.Element:
@@ -199,10 +254,12 @@ def _parse_tree(root: ET.Element) -> DJIMetadata:
     assert polygon_el is not None
     polygon_coordinates = _get_value(polygon_el, "coordinates")
     polygon = _kml_coords_to_polygon(str(polygon_coordinates))
+    assert isinstance(polygon, Polygon)
+
+    polygon_with_buffer = buffer_in_metres(polygon, margin_m)
 
     # ---- Update Time ----
     mission_updated_timestamp = _get_value(root, "updateTime")
-    assert isinstance(polygon, Polygon)
 
     return DJIMetadata(
         platform=platform,
@@ -218,6 +275,7 @@ def _parse_tree(root: ET.Element) -> DJIMetadata:
         terrain_type=terrain_type,
         target_surface_takeoff_m=tsto,
         polygon=polygon.wkt,
+        polygon_with_buffer=polygon_with_buffer.wkt,
     )
 
 

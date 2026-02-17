@@ -1,15 +1,51 @@
 {
-    "platform": "M3M/M3E",
-    "sensor": "m3m",
-    "mission_updated_timestamp": 1727316295734,
-    "flight_height_m": 35,
-    "flight_speed_ms": 2.69,
-    "orientation_deg": 0,
-    "margin_m": 0,
-    "forward_overlap": 80,
-    "side_overlap": 80,
-    "terrain_follow": "Enabled",
-    "terrain_type": "real time follow",
-    "target_surface_takeoff_m": 0.0,
-    "polygon": "POLYGON Z ((133.678878121269 -24.815923775654 0, 133.678835787349 -24.8172326160587 0, 133.677713937427 -24.8172734421646 0, 133.677690124545 -24.8159501927631 0, 133.678878121269 -24.815923775654 0))"
+    "type": "Feature",
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+            [
+                [
+                    133.678878121269,
+                    -24.815923775653992,
+                    0.0
+                ],
+                [
+                    133.678835787349,
+                    -24.8172326160587,
+                    0.0
+                ],
+                [
+                    133.677713937427,
+                    -24.8172734421646,
+                    0.0
+                ],
+                [
+                    133.677690124545,
+                    -24.815950192763104,
+                    0.0
+                ],
+                [
+                    133.678878121269,
+                    -24.815923775653992,
+                    0.0
+                ]
+            ]
+        ]
+    },
+    "properties": {
+        "platform": "M3M/M3E",
+        "sensor": "m3m",
+        "mission_updated_timestamp": 1727316295734,
+        "flight_height_m": 35,
+        "flight_speed_ms": 2.69,
+        "orientation_deg": 0,
+        "margin_m": 0,
+        "forward_overlap": 80,
+        "side_overlap": 80,
+        "terrain_follow": "Enabled",
+        "terrain_type": "real time follow",
+        "target_surface_takeoff_m": 0.0,
+        "polygon": "POLYGON Z ((133.678878121269 -24.815923775654 0, 133.678835787349 -24.8172326160587 0, 133.677713937427 -24.8172734421646 0, 133.677690124545 -24.8159501927631 0, 133.678878121269 -24.815923775654 0))",
+        "polygon_with_buffer": "POLYGON Z ((133.678878121269 -24.815923775653992 0, 133.678835787349 -24.8172326160587 0, 133.677713937427 -24.8172734421646 0, 133.677690124545 -24.815950192763104 0, 133.678878121269 -24.815923775653992 0))"
+    }
 }
