@@ -147,6 +147,7 @@ def _parse_tree(root: ET.Element) -> DJIMetadata:
     # The sensors aren't as well documented, so this is based on our experience
     dji_sensor_lookup = {
         "68_3": "m3m",
+        "68_0": "m3m",  # To Confirm
         "50_1": "p1",
         "84_1": "l2",
     }

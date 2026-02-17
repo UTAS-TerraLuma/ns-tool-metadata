@@ -33,10 +33,13 @@ def title():
 
 
 def extract_and_save(kmz: Path):
-    print(f"Extracting metadata from {kmz.name}")
-    metadata = parse_kmz(kmz)
-    kmz_json = kmz.with_suffix(".json")
-    kmz_json.write_text(metadata.model_dump_json(indent=4))
+    try:
+        print(f"Extracting metadata from {kmz.name}")
+        metadata = parse_kmz(kmz)
+        kmz_json = kmz.with_suffix(".json")
+        kmz_json.write_text(metadata.model_dump_json(indent=4))
+    except Exception as e:
+        print(f"Error parsing {kmz}\n{e}")
 
 
 @app.command()
