@@ -6,16 +6,23 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "pandas>=2.3.3",
+    "pydantic>=2.12.5",
+    "shapely>=2.1.2",
     "typer>=0.20.0",
 ]
 
 [project.scripts]
-dji-metadata-tool = "main:app"
+dji-metadata-tool = "dji_metadata_tool.cli:app"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["."]
-only-include = ["main.py"]
+packages = ["src/dji_metadata_tool"]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.1",
+    "ty>=0.0.17",
+]

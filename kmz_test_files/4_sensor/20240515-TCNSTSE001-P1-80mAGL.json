@@ -1,0 +1,15 @@
+{
+    "platform": "Matrice 300 RTK",
+    "sensor": "p1",
+    "mission_updated_timestamp": 1715737154418,
+    "flight_height_m": 80,
+    "flight_speed_ms": 8.0,
+    "orientation_deg": 172,
+    "margin_m": 0,
+    "forward_overlap": 80,
+    "side_overlap": 80,
+    "terrain_follow": "Disabled",
+    "terrain_type": "N/A",
+    "target_surface_takeoff_m": 0.0,
+    "polygon": "POLYGON Z ((148.232791960132 -41.942099008323 0, 148.234713451321 -41.9427494399944 0, 148.236282932295 -41.9436489595501 0, 148.236201232338 -41.9411239397535 0, 148.235782078134 -41.939648311181 0, 148.235190716495 -41.9389507831942 0, 148.23214837469 -41.9386877741318 0, 148.232791960132 -41.942099008323 0))"
+}

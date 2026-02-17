@@ -1,0 +1,15 @@
+{
+    "platform": "M3M/M3E",
+    "sensor": "m3m",
+    "mission_updated_timestamp": 1747112666681,
+    "flight_height_m": 90,
+    "flight_speed_ms": 8.06,
+    "orientation_deg": 0,
+    "margin_m": 20,
+    "forward_overlap": 80,
+    "side_overlap": 80,
+    "terrain_follow": "Disabled",
+    "terrain_type": "N/A",
+    "target_surface_takeoff_m": 0.0,
+    "polygon": "POLYGON Z ((147.685663256148 -42.9754139049408 0, 147.68579737209 -42.9823916429892 0, 147.695716399805 -42.9839933367875 0, 147.695984121949 -42.9826486188015 0, 147.696321768829 -42.9793148997377 0, 147.686908341884 -42.9754618250402 0, 147.685663256148 -42.9754139049408 0))"
+}
