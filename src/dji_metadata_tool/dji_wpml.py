@@ -5,7 +5,6 @@ from typing import Any
 
 import pyproj
 from pydantic import BaseModel
-from pyproj.aoi import AreaOfInterest
 from shapely import Polygon, wkt
 from shapely.geometry import mapping
 from shapely.ops import transform
@@ -26,6 +25,7 @@ class DJIMetadata(BaseModel):
     target_surface_takeoff_m: float
     polygon: str
     polygon_with_buffer: str
+    utm_crs: str
 
     def to_geojson_feature(self) -> dict[str, Any]:
         geom = wkt.loads(self.polygon_with_buffer)
@@ -39,23 +39,23 @@ class DJIMetadata(BaseModel):
         }
 
 
+def mga2020_zone_from_lon(lon: float) -> int:
+    # Standard UTM zone formula (1..60)
+    return int((lon + 180) // 6) + 1
+
+
+def get_mga2020_utm_crs(geom: Polygon):
+    zone = mga2020_zone_from_lon(geom.centroid.x)
+    mga_epsg = 7800 + zone
+
+    return f"EPSG:{mga_epsg}"
+
+
 # The buffer must be done in a projected coordinate system
 def buffer_in_metres(geom: Polygon, margin_m: int | float):
     # Define projections
     wgs84 = pyproj.CRS("EPSG:4326")
-
-    # Auto-pick appropriate UTM zone based on centroid
-    utm_crs = pyproj.CRS.from_user_input(
-        pyproj.database.query_utm_crs_info(
-            datum_name="WGS 84",
-            area_of_interest=AreaOfInterest(
-                west_lon_degree=geom.centroid.x,
-                south_lat_degree=geom.centroid.y,
-                east_lon_degree=geom.centroid.x,
-                north_lat_degree=geom.centroid.y,
-            ),
-        )[0].code
-    )
+    utm_crs = pyproj.CRS(get_mga2020_utm_crs(geom))
 
     # Transformers
     project_to_utm = pyproj.Transformer.from_crs(
@@ -261,6 +261,8 @@ def _parse_tree(root: ET.Element) -> DJIMetadata:
     # ---- Update Time ----
     mission_updated_timestamp = _get_value(root, "updateTime")
 
+    utm_crs = get_mga2020_utm_crs(polygon)
+
     return DJIMetadata(
         platform=platform,
         sensor=sensor,
@@ -276,6 +278,7 @@ def _parse_tree(root: ET.Element) -> DJIMetadata:
         target_surface_takeoff_m=tsto,
         polygon=polygon.wkt,
         polygon_with_buffer=polygon_with_buffer.wkt,
+        utm_crs=utm_crs,
     )
 
 
