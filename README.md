@@ -2,6 +2,11 @@
 
 A Python tool for extracting and managing metadata from DJI WPML (Waypoint Mission Language) KMZ files. This tool parses flight mission parameters from DJI drone mission files and combines them with user-provided metadata to create comprehensive flight records.
 
+## TODO
+- [ ] Add tests
+- [ ] Default to NatureScan_drone directory
+- [ ] Use to push user metadata down to individual surveys. Aka split into drone metadata and user metadata
+
 ## Requirements
 
 - [pixi](https://pixi.sh)
