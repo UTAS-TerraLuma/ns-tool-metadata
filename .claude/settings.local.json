@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /c/Users/jamesg26/code/dji-metadata-tool -not -path */.venv/* -not -path */__pycache__/* -not -path *.egg-info -type f)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:api.github.com)",
+      "WebSearch",
+      "Bash(pixi install:*)"
+    ]
+  }
+}
