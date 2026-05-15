@@ -6,7 +6,11 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:api.github.com)",
       "WebSearch",
-      "Bash(pixi install:*)"
+      "Bash(pixi install:*)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\jamesg26\\\\code\\\\ns-tool-metadata\" -Force)",
+      "Bash(Select-Object Name, PSIsContainer)",
+      "Bash(Format-Table -AutoSize)",
+      "PowerShell(Get-ChildItem *)"
     ]
   }
 }
